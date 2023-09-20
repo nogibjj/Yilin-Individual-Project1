@@ -3,4 +3,5 @@ pytest==6.2.5
 nbval==0.9.6
 black==21.7b0
 pyspark==3.1.2
-
+matplotlib==3.4.3
+```
