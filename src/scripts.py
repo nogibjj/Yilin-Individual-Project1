@@ -1,12 +1,15 @@
-from lib import read_data, calculate_average_cost_by_country
+import polars as pl
 
-def main():
-    data = read_data("data.csv")
-    avg_cost_albania = calculate_average_cost_by_country(data, "Albania")
-    avg_cost_algeria = calculate_average_cost_by_country(data, "Algeria")
+def load_data(file_path):
+    """Load data using polars and return a DataFrame."""
+    return pl.read_csv(file_path)
 
-    print(f"Average cost for a healthy diet in Albania: {avg_cost_albania}")
-    print(f"Average cost for a healthy diet in Algeria: {avg_cost_algeria}")
+def calculate_average_cost_per_year(df):
+    """Calculate the average cost of a healthy diet per year."""
+    return df.groupby("Year").agg(pl.col("Cost of a healthy diet").mean().alias("Average Cost"))
 
 if __name__ == "__main__":
-    main()
+    data_path = "data.csv"
+    df = load_data(data_path)
+    avg_cost_df = calculate_average_cost_per_year(df)
+    print(avg_cost_df)
